@@ -1,4 +1,6 @@
-﻿namespace Belatrix.WebApi.Models
+﻿using System.Collections.Generic;
+
+namespace Belatrix.WebApi.Models
 {
     public class Customer
     {
@@ -8,5 +10,6 @@
         public string City { get; set; }
         public string Country { get; set; }
         public string Phone { get; set; }
+        public List<Order> Orders { get; set; }
     }
 }
