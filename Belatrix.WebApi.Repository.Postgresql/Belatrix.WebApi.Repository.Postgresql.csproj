@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.0</TargetFramework>
@@ -10,6 +10,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Belatrix.Models\Belatrix.WebApi.Models.csproj" />
+    <ProjectReference Include="..\Belatrix.WebApi.Repository\Belatrix.WebApi.Repository.csproj" />
   </ItemGroup>
 
 </Project>
