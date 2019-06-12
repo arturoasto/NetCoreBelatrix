@@ -10,7 +10,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Belatrix.WebApi.Migrations
 {
     [DbContext(typeof(BelatrixDbContext))]
-    [Migration("20190610223957_initial")]
+    [Migration("20190612184823_initial")]
     partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -29,12 +29,10 @@ namespace Belatrix.WebApi.Migrations
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
                     b.Property<string>("City")
-                        .IsRequired()
                         .HasColumnName("city")
                         .HasMaxLength(40);
 
                     b.Property<string>("Country")
-                        .IsRequired()
                         .HasColumnName("country")
                         .HasMaxLength(40);
 
@@ -49,14 +47,14 @@ namespace Belatrix.WebApi.Migrations
                         .HasMaxLength(40);
 
                     b.Property<string>("Phone")
-                        .IsRequired()
                         .HasColumnName("phone")
                         .HasMaxLength(20);
 
-                    b.HasKey("Id");
+                    b.HasKey("Id")
+                        .HasName("customer_id_pkey");
 
                     b.HasIndex("LastName", "FirstName")
-                        .HasName("customer_name__idx");
+                        .HasName("customer_name_idx");
 
                     b.ToTable("customer");
                 });
@@ -68,26 +66,33 @@ namespace Belatrix.WebApi.Migrations
                         .HasColumnName("id")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
-                    b.Property<int>("CustomerId");
+                    b.Property<int>("CustomerId")
+                        .HasColumnName("customer_id");
 
                     b.Property<DateTime>("OrderDate")
-                        .HasColumnName("order_date");
+                        .HasColumnName("order_date")
+                        .HasColumnType("date");
 
                     b.Property<string>("OrderNumber")
                         .IsRequired()
-                        .HasColumnName("order_number");
+                        .HasColumnName("order_number")
+                        .HasMaxLength(10);
 
                     b.Property<decimal?>("TotalAmount")
                         .IsRequired()
-                        .HasColumnName("total_amount");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("total_amount")
+                        .HasColumnType("numeric(12,2)")
+                        .HasDefaultValueSql("0");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id")
+                        .HasName("order_id_pkey");
 
                     b.HasIndex("CustomerId")
-                        .HasName("order__customer_id__idx");
+                        .HasName("order_customer_id__idx");
 
                     b.HasIndex("OrderDate")
-                        .HasName("order__order_date__idx");
+                        .HasName("order_order_date__idx");
 
                     b.ToTable("order");
                 });
@@ -99,23 +104,29 @@ namespace Belatrix.WebApi.Migrations
                         .HasColumnName("id")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
-                    b.Property<int>("OrderId");
+                    b.Property<int>("OrderId")
+                        .HasColumnName("order_id");
 
-                    b.Property<int>("ProductId");
+                    b.Property<int>("ProductId")
+                        .HasColumnName("product_id");
 
                     b.Property<int>("Quantity")
-                        .HasColumnName("quantity");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("quantity")
+                        .HasDefaultValueSql("1");
 
                     b.Property<decimal>("UnitPrice")
-                        .HasColumnName("unit_price");
+                        .HasColumnName("unit_price")
+                        .HasColumnType("numeric(12,2)");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id")
+                        .HasName("order_item__id__pkey");
 
                     b.HasIndex("OrderId")
                         .HasName("order_item__order_id__idx");
 
                     b.HasIndex("ProductId")
-                        .HasName("order_item__product_id__idx");
+                        .HasName("order_item__produc_tid__idx");
 
                     b.ToTable("order_item");
                 });
@@ -131,7 +142,6 @@ namespace Belatrix.WebApi.Migrations
                         .HasColumnName("is_discontinued");
 
                     b.Property<string>("Package")
-                        .IsRequired()
                         .HasColumnName("package")
                         .HasMaxLength(30);
 
@@ -140,19 +150,23 @@ namespace Belatrix.WebApi.Migrations
                         .HasColumnName("product_name")
                         .HasMaxLength(50);
 
-                    b.Property<int>("SupplierId");
+                    b.Property<int>("SupplierId")
+                        .HasColumnName("supplier_id");
 
                     b.Property<decimal?>("UnitPrice")
-                        .IsRequired()
-                        .HasColumnName("unit_price");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("unit_price")
+                        .HasColumnType("numeric(12,2)")
+                        .HasDefaultValueSql("0");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id")
+                        .HasName("product_id_pkey");
 
                     b.HasIndex("ProductName")
-                        .HasName("product_name__idx");
+                        .HasName("product_name_idx");
 
                     b.HasIndex("SupplierId")
-                        .HasName("product_supplier_id__idx");
+                        .HasName("product__supplier_id__idx");
 
                     b.ToTable("product");
                 });
@@ -165,7 +179,6 @@ namespace Belatrix.WebApi.Migrations
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
                     b.Property<string>("City")
-                        .IsRequired()
                         .HasColumnName("city")
                         .HasMaxLength(40);
 
@@ -175,37 +188,33 @@ namespace Belatrix.WebApi.Migrations
                         .HasMaxLength(40);
 
                     b.Property<string>("ContactName")
-                        .IsRequired()
                         .HasColumnName("contact_name")
                         .HasMaxLength(50);
 
                     b.Property<string>("ContactTitle")
-                        .IsRequired()
                         .HasColumnName("contact_title")
                         .HasMaxLength(40);
 
                     b.Property<string>("Country")
-                        .IsRequired()
                         .HasColumnName("country")
                         .HasMaxLength(40);
 
                     b.Property<string>("Fax")
-                        .IsRequired()
                         .HasColumnName("fax")
                         .HasMaxLength(30);
 
                     b.Property<string>("Phone")
-                        .IsRequired()
                         .HasColumnName("phone")
                         .HasMaxLength(30);
 
-                    b.HasKey("Id");
+                    b.HasKey("Id")
+                        .HasName("supplier_id_pkey");
 
                     b.HasIndex("CompanyName")
-                        .HasName("supplier_name__idx");
+                        .HasName("supplier_name_idx");
 
                     b.HasIndex("Country")
-                        .HasName("supplier_country__idx");
+                        .HasName("supplier_country_idx");
 
                     b.ToTable("supplier");
                 });
@@ -213,37 +222,33 @@ namespace Belatrix.WebApi.Migrations
             modelBuilder.Entity("Belatrix.WebApi.Models.Order", b =>
                 {
                     b.HasOne("Belatrix.WebApi.Models.Customer", "Customer")
-                        .WithMany("Orders")
+                        .WithMany("Order")
                         .HasForeignKey("CustomerId")
-                        .HasConstraintName("customer_id")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .HasConstraintName("order__reference_customer__idx")
                         .IsRequired();
                 });
 
             modelBuilder.Entity("Belatrix.WebApi.Models.OrderItem", b =>
                 {
                     b.HasOne("Belatrix.WebApi.Models.Order", "Order")
-                        .WithMany("OrderItems")
+                        .WithMany("OrderItem")
                         .HasForeignKey("OrderId")
-                        .HasConstraintName("order_id")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .HasConstraintName("order_item__reference_order__fkey")
                         .IsRequired();
 
                     b.HasOne("Belatrix.WebApi.Models.Product", "Product")
                         .WithMany("OrderItem")
                         .HasForeignKey("ProductId")
-                        .HasConstraintName("product_id")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .HasConstraintName("order_item__reference_product__fkey")
                         .IsRequired();
                 });
 
             modelBuilder.Entity("Belatrix.WebApi.Models.Product", b =>
                 {
                     b.HasOne("Belatrix.WebApi.Models.Supplier", "Supplier")
-                        .WithMany("Products")
+                        .WithMany("Product")
                         .HasForeignKey("SupplierId")
-                        .HasConstraintName("supplier_id")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .HasConstraintName("product__reference_supplier__fkey")
                         .IsRequired();
                 });
 #pragma warning restore 612, 618

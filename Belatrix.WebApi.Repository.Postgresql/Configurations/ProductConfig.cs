@@ -10,19 +10,91 @@ namespace Belatrix.WebApi.Repository.Postgresql.Configurations
     public class ProductConfig : IEntityTypeConfiguration<Product>
     {
         public void Configure(EntityTypeBuilder<Product> builder)
+
         {
-            builder.ToTable("product");
 
-            builder.Property(x => x.Id).HasColumnName("id").UseNpgsqlIdentityColumn();
-            builder.Property(x => x.ProductName).HasColumnName("product_name").HasMaxLength(50).IsRequired();
-            builder.Property(x => x.UnitPrice).HasColumnName("unit_price").IsRequired();
-            builder.Property(x => x.Package).HasColumnName("package").HasMaxLength(30).IsRequired();
-            builder.Property(x => x.IsDiscontinued).HasColumnName("is_discontinued").IsRequired();
+            builder.ToTable("product")
 
-            builder.HasIndex(i => i.SupplierId).HasName("product_supplier_id__idx");
-            builder.HasIndex(i => i.ProductName).HasName("product_name__idx");
+                .HasKey(c => c.Id)
 
-            builder.HasOne(x => x.Supplier).WithMany(x => x.Products).HasForeignKey(x => x.SupplierId).HasConstraintName("supplier_id");
+                .HasName("product_id_pkey"); ;
+
+
+
+            builder.HasIndex(e => e.ProductName)
+
+                .HasName("product_name_idx");
+
+
+
+            builder.HasIndex(e => e.SupplierId)
+
+                .HasName("product__supplier_id__idx");
+
+
+
+            builder.Property(e => e.Id)
+
+                .HasColumnName("id")
+
+                .UseNpgsqlIdentityColumn();
+
+
+
+            builder.Property(e => e.IsDiscontinued)
+
+                .HasColumnName("is_discontinued")
+
+                .IsRequired();
+
+
+
+            builder.Property(e => e.Package)
+
+                .HasColumnName("package")
+
+                .HasMaxLength(30);
+
+
+
+            builder.Property(e => e.ProductName)
+
+                .HasColumnName("product_name")
+
+                .HasMaxLength(50)
+
+                .IsRequired();
+
+
+
+            builder.Property(e => e.SupplierId)
+
+                .HasColumnName("supplier_id")
+
+                .IsRequired();
+
+
+
+            builder.Property(e => e.UnitPrice)
+
+                .HasColumnName("unit_price")
+
+                .HasColumnType("numeric(12,2)")
+
+                .HasDefaultValueSql("0");
+
+
+
+            builder.HasOne(d => d.Supplier)
+
+                .WithMany(p => p.Product)
+
+                .HasForeignKey(d => d.SupplierId)
+
+                .OnDelete(DeleteBehavior.ClientSetNull)
+
+                .HasConstraintName("product__reference_supplier__fkey");
+
         }
     }
 }

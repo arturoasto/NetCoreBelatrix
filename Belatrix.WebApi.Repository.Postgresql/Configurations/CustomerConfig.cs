@@ -78,6 +78,5 @@ namespace Belatrix.WebApi.Repository.Postgresql.Configurations
                 .HasMaxLength(20);
 
         }
-    }
-    }
+    }    
 }
