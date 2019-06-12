@@ -19,6 +19,52 @@ namespace Belatrix.WebApi.Controllers
             _repository = repository;
         }
 
+        [HttpGet]
 
+        public async Task<ActionResult<IEnumerable<Customer>>> GetCustomers()
+
+        {
+
+            return Ok(await _repository.Read());
+
+        }
+
+
+
+        [HttpPost]
+
+        public async Task<ActionResult<Customer>> PostCustomer(Customer customer)
+
+        {
+
+            await _repository.Create(customer);
+
+            return Ok(customer.Id);
+
+        }
+
+
+
+        [HttpPut]
+
+        public async Task<ActionResult<bool>> PutCustomer(Customer customer)
+
+        {
+
+            return Ok(await _repository.Update(customer));
+
+        }
+
+
+
+        [HttpDelete]
+
+        public async Task<ActionResult<bool>> DeleteCustomer(int customerId)
+
+        {
+
+            return Ok(await _repository.Delete(new Customer { Id = customerId }));
+
+        }
     }
 }

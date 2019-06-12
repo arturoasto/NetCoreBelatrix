@@ -29,7 +29,7 @@ namespace Belatrix.WebApi.Repository
 
         public async Task<IEnumerable<T>> Read()
         {
-            return await dataBase.Set<T>().ToListAsync();
+            return await dataBase.Set<T>().AsNoTracking().ToListAsync();
         }
 
         public async Task<bool> Update(T entity)
