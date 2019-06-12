@@ -17,6 +17,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="5.0.0-rc2" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Belatrix.WebApi.Repository.Postgresql\Belatrix.WebApi.Repository.Postgresql.csproj" />
