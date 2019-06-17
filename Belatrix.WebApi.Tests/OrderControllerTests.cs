@@ -15,12 +15,12 @@ using Xunit;
 
 namespace Belatrix.WebApi.Tests
 {
-    public class CustomerControllerTests
+    public class OrderControllerTests
 
     {
         private readonly BelatrixDbContextBuilder _builder;
 
-        public CustomerControllerTests()
+        public OrderControllerTests()
         {
             _builder = new BelatrixDbContextBuilder();
         }

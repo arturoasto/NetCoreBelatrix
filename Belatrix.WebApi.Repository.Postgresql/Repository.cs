@@ -34,7 +34,7 @@ namespace Belatrix.WebApi.Repository
 
         public async Task<bool> Update(T entity)
         {
-            dataBase.Attach(entity).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            dataBase.Update(entity);
             return await dataBase.SaveChangesAsync() > 0;
         }
     }

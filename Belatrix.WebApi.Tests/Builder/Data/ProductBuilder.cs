@@ -8,30 +8,23 @@ namespace Belatrix.WebApi.Tests.Builder.Data
 {
     public partial class BelatrixDbContextBuilder
     {
-        public BelatrixDbContextBuilder AddTenCustomers()
+        public BelatrixDbContextBuilder AddTenProducts()
         {
-            AddCustomers(_context,10);
+            AddProducts(_context, 10);
             return this;
         }
 
-        public BelatrixDbContextBuilder AddCustomer()
+        private void AddProducts(BelatrixDbContext context, int quantity)
         {
-            AddCustomers(_context, 1);
-            return this;
-        }
-
-        private void AddCustomers(BelatrixDbContext context, int quantity)
-        {
-            var customerList = A.ListOf<Models.Customer>(quantity);
+            var customerList = A.ListOf<Models.Product>(quantity);
             for (int i = 1; i <= quantity; i++)
             {
                 customerList[i - 1].Id = i;
             }
 
-            context.Customers.AddRange(customerList);
+            context.Products.AddRange(customerList);
             context.SaveChanges();
         }
 
     }
-
 }

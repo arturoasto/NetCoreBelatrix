@@ -28,7 +28,7 @@ namespace Belatrix.WebApi.Tests.Builder.Data
 
         public void Dispose()
         {
-            this.Dispose();
+            _context.Dispose();
         }
     }
 
