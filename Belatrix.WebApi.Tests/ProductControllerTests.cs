@@ -26,61 +26,61 @@ namespace Belatrix.WebApi.Tests
         }
 
         [Fact]
-        public async Task CustomerController_GetCustomers_Ok()
+        public async Task ProductController_GetProducts_Ok()
         {
             var db = _builder
                 .ConfigureInMemory()
-                .AddTenCustomers()
+                .AddTenProducts()
                 .Build();
 
-            var repository = new Repository<Models.Customer>(db);
+            var repository = new Repository<Models.Product>(db);
 
-            var controller = new CustomerController(repository);
+            var controller = new ProductController(repository);
 
-            var response = (await controller.GetCustomers())
+            var response = (await controller.GetProducts())
                 .Result as OkObjectResult;
 
-            var values = response.Value as List<Models.Customer>;
+            var values = response.Value as List<Models.Product>;
 
             values.Count.Should().Be(10);
         }
 
         [Fact]
-        public async Task CustomerController_CreateCustomer_Ok()
+        public async Task ProductController_CreateProduct_Ok()
         {
             var db = _builder
             .ConfigureInMemory()
             .Build();
 
-            var repository = new Repository<Models.Customer>(db);
+            var repository = new Repository<Models.Product>(db);
 
-            var controller = new CustomerController(repository);
+            var controller = new ProductController(repository);
 
-            var newCustomer = A.New<Models.Customer>();
-            var response = (await controller.PostCustomer(newCustomer))
+            var newProduct = A.New<Models.Product>();
+            var response = (await controller.PostProduct(newProduct))
                 .Result as OkObjectResult;
 
             var values = Convert.ToInt32(response.Value);
 
-            values.Should().Be(newCustomer.Id);            
+            values.Should().Be(newProduct.Id);            
         }
 
         [Fact]
-        public async Task CustomerController_UpdateCustomer_Ok()
+        public async Task ProductController_UpdateProduct_Ok()
         {
             var db = _builder
             .ConfigureInMemory()
-            .AddCustomer()
+            .AddTenProducts()
             .Build();
 
-            var repository = new Repository<Models.Customer>(db);
+            var repository = new Repository<Models.Product>(db);
 
-            var controller = new CustomerController(repository);
+            var controller = new ProductController(repository);
 
-            var updateCustomer = db.Customers.Find(1);
-            updateCustomer.LastName = "123123";
+            var updateProduct = db.Products.Find(1);
+            updateProduct.ProductName = "123123";
              
-            var response = (await controller.PutCustomer(updateCustomer))
+            var response = (await controller.PutProduct(updateProduct))
                 .Result as OkObjectResult;
 
             var values = Convert.ToBoolean(response.Value);
@@ -89,19 +89,19 @@ namespace Belatrix.WebApi.Tests
         }
 
         [Fact]
-        public async Task CustomerController_DeleteCustomer_Ok()
+        public async Task ProductController_DeleteProduct_Ok()
         {
             var db = _builder
             .ConfigureInMemory()
-            .AddCustomer()
+            .AddTenProducts()
             .Build();
 
-            var repository = new Repository<Models.Customer>(db);
+            var repository = new Repository<Models.Product>(db);
 
-            var controller = new CustomerController(repository);
+            var controller = new ProductController(repository);
 
-            var customer = db.Customers.Find(1);
-            var response = (await controller.DeleteCustomer(customer.Id))
+            var Product = db.Products.Find(1);
+            var response = (await controller.DeleteProduct(Product.Id))
                 .Result as OkObjectResult;
 
             var values = Convert.ToBoolean(response.Value);

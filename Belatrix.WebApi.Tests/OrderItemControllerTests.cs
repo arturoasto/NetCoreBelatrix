@@ -26,61 +26,61 @@ namespace Belatrix.WebApi.Tests
         }
 
         [Fact]
-        public async Task CustomerController_GetCustomers_Ok()
+        public async Task OrderItemController_GetOrderItems_Ok()
         {
             var db = _builder
                 .ConfigureInMemory()
-                .AddTenCustomers()
+                .AddTenOrderItems()
                 .Build();
 
-            var repository = new Repository<Models.Customer>(db);
+            var repository = new Repository<Models.OrderItem>(db);
 
-            var controller = new CustomerController(repository);
+            var controller = new OrderItemController(repository);
 
-            var response = (await controller.GetCustomers())
+            var response = (await controller.GetOrderItems())
                 .Result as OkObjectResult;
 
-            var values = response.Value as List<Models.Customer>;
+            var values = response.Value as List<Models.OrderItem>;
 
             values.Count.Should().Be(10);
         }
 
         [Fact]
-        public async Task CustomerController_CreateCustomer_Ok()
+        public async Task OrderItemController_CreateOrderItem_Ok()
         {
             var db = _builder
             .ConfigureInMemory()
             .Build();
 
-            var repository = new Repository<Models.Customer>(db);
+            var repository = new Repository<Models.OrderItem>(db);
 
-            var controller = new CustomerController(repository);
+            var controller = new OrderItemController(repository);
 
-            var newCustomer = A.New<Models.Customer>();
-            var response = (await controller.PostCustomer(newCustomer))
+            var newOrderItem = A.New<Models.OrderItem>();
+            var response = (await controller.PostOrderItem(newOrderItem))
                 .Result as OkObjectResult;
 
             var values = Convert.ToInt32(response.Value);
 
-            values.Should().Be(newCustomer.Id);            
+            values.Should().Be(newOrderItem.Id);            
         }
 
         [Fact]
-        public async Task CustomerController_UpdateCustomer_Ok()
+        public async Task OrderItemController_UpdateOrderItem_Ok()
         {
             var db = _builder
             .ConfigureInMemory()
-            .AddCustomer()
+            .AddTenOrderItems()
             .Build();
 
-            var repository = new Repository<Models.Customer>(db);
+            var repository = new Repository<Models.OrderItem>(db);
 
-            var controller = new CustomerController(repository);
+            var controller = new OrderItemController(repository);
 
-            var updateCustomer = db.Customers.Find(1);
-            updateCustomer.LastName = "123123";
+            var updateOrderItem = db.OrderItems.Find(1);
+            updateOrderItem.Quantity = 2;
              
-            var response = (await controller.PutCustomer(updateCustomer))
+            var response = (await controller.PutOrderItem(updateOrderItem))
                 .Result as OkObjectResult;
 
             var values = Convert.ToBoolean(response.Value);
@@ -89,19 +89,19 @@ namespace Belatrix.WebApi.Tests
         }
 
         [Fact]
-        public async Task CustomerController_DeleteCustomer_Ok()
+        public async Task OrderItemController_DeleteOrderItem_Ok()
         {
             var db = _builder
             .ConfigureInMemory()
-            .AddCustomer()
+            .AddTenOrderItems()
             .Build();
 
-            var repository = new Repository<Models.Customer>(db);
+            var repository = new Repository<Models.OrderItem>(db);
 
-            var controller = new CustomerController(repository);
+            var controller = new OrderItemController(repository);
 
-            var customer = db.Customers.Find(1);
-            var response = (await controller.DeleteCustomer(customer.Id))
+            var OrderItem = db.OrderItems.Find(1);
+            var response = (await controller.DeleteOrderItem(OrderItem.Id))
                 .Result as OkObjectResult;
 
             var values = Convert.ToBoolean(response.Value);
